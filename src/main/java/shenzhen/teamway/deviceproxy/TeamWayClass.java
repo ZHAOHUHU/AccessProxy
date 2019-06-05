@@ -6,8 +6,6 @@ import com.sun.jna.NativeLong;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 
-import shenzhen.teamway.deviceproxy.HCNetSDK.FRemoteConfigCallback;
-import shenzhen.teamway.deviceproxy.HCNetSDK.NET_DVR_CARD_CFG_V50;
 
 public class TeamWayClass {
 	private static Logger log = Logger.getAnonymousLogger();
@@ -91,47 +89,47 @@ public class TeamWayClass {
 	 * 启动长链接sdk6.6.17
 	 * @return -1 表示失败，其他值作为 NET_DVR_SendRemoteConfig 等接口的句柄
 	 */
-	public static NativeLong startRemoteConfig(NativeLong userId, int dwCommand, Pointer lpInBuffer, int dwInBufferLen, NET_DVR_CARD_CFG_V50 cbStateCallback, Pointer pUserData) {                   
-
-		lHandlee = hCNetSDK.NET_DVR_StartRemoteConfig(userId, dwCommand, lpInBuffer, dwInBufferLen, cbStateCallback, pUserData);// 启动长连接
-		if ("-1".equals(String.valueOf(lHandlee).trim())) {
-			int numbeFalse = hCNetSDK.NET_DVR_GetLastError();
-			log.info("长连接启动失败,错误代码：" + numbeFalse);
-		} else {
-			log.info("长连接启动成功"+lHandlee);
-		}
-		return lHandlee;
-	}
+//	public static NativeLong startRemoteConfig(NativeLong userId, int dwCommand, Pointer lpInBuffer, int dwInBufferLen, NET_DVR_CARD_CFG_V50 cbStateCallback, Pointer pUserData) {                   
+//
+//		lHandlee = hCNetSDK.NET_DVR_StartRemoteConfig(userId, dwCommand, lpInBuffer, dwInBufferLen, cbStateCallback, pUserData);// 启动长连接
+//		if ("-1".equals(String.valueOf(lHandlee).trim())) {
+//			int numbeFalse = hCNetSDK.NET_DVR_GetLastError();
+//			log.info("长连接启动失败,错误代码：" + numbeFalse);
+//		} else {
+//			log.info("长连接启动成功"+lHandlee);
+//		}
+//		return lHandlee;
+//	}
 	
 	/**
 	 * 长链接回调函数----获取卡号
 	 * @return -1 表示失败，其他值作为 NET_DVR_SendRemoteConfig 等接口的句柄
 	 */
-	public static class FRemoteCallback implements FRemoteConfigCallback {
-		NET_DVR_CARD_CFG_V50 ndc = new NET_DVR_CARD_CFG_V50();//卡号等信息结构体
-		private String cardID = "";
-		private int dwType;
-		private Pointer lpBuffer;
-		private int dwBufLen;
-		private Pointer pUserData;
-		
-		public FRemoteCallback(int dwType, Pointer lpBuffer, int dwBufLen, Pointer pUserData){
-					this.dwType=dwType;
-					this.lpBuffer=lpBuffer;
-					this.dwBufLen=dwBufLen;
-					this.pUserData=pUserData;
-		}
-		@Override
-		public void invoke(int dwType, Pointer lpBuffer, int dwBufLen, Pointer pUserData) {// 取 lpBuffer中的卡号 在NET_DVR_CARD_CFG_V50结构体中
-			dwType = this.dwType;
-			lpBuffer = this.lpBuffer;
-			dwBufLen = this.dwBufLen;
-			pUserData = this.pUserData;
-			for (int j = 0; j < ndc.byCardNo.length; j++) {
-				cardID = cardID + ndc.byCardNo[j];
-			}
-		}
-	}
+//	public static class FRemoteCallback implements FRemoteConfigCallback {
+//		NET_DVR_CARD_CFG_V50 ndc = new NET_DVR_CARD_CFG_V50();//卡号等信息结构体
+//		private String cardID = "";
+//		private int dwType;
+//		private Pointer lpBuffer;
+//		private int dwBufLen;
+//		private Pointer pUserData;
+//		
+//		public FRemoteCallback(int dwType, Pointer lpBuffer, int dwBufLen, Pointer pUserData){
+//					this.dwType=dwType;
+//					this.lpBuffer=lpBuffer;
+//					this.dwBufLen=dwBufLen;
+//					this.pUserData=pUserData;
+//		}
+//		@Override
+//		public void invoke(int dwType, Pointer lpBuffer, int dwBufLen, Pointer pUserData) {// 取 lpBuffer中的卡号 在NET_DVR_CARD_CFG_V50结构体中
+//			dwType = this.dwType;
+//			lpBuffer = this.lpBuffer;
+//			dwBufLen = this.dwBufLen;
+//			pUserData = this.pUserData;
+//			for (int j = 0; j < ndc.byCardNo.length; j++) {
+//				cardID = cardID + ndc.byCardNo[j];
+//			}
+//		}
+//	}
 	
 	
 	/**
@@ -194,7 +192,7 @@ public class TeamWayClass {
 		TeamWayInterface.NET_DVR_CARD_CFG_COND ndc = new TeamWayInterface.NET_DVR_CARD_CFG_COND();//dwCommand=2116时   lpInBuffer对应的结构体  简化
 		TeamWayInterface.NET_DVR_USER_LOGIN_INFO struLoginInfo = new TeamWayInterface.NET_DVR_USER_LOGIN_INFO();//登录信息结构体
 		/** 错误码:17  参数错误。SDK 接口中给入的输入或输出参数为空。*/
-		startRemoteConfig(lChannel, NET_DVR_GET_CARD_CFG, ndc.getPointer(), 50, null, struLoginInfo.getPointer());
+//		startRemoteConfig(lChannel, NET_DVR_GET_CARD_CFG, ndc.getPointer(), 50, null, struLoginInfo.getPointer());
 		
 		//注销
 		LogOut(id);

@@ -8,10 +8,6 @@ import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.ptr.IntByReference;
 
-import shenzhen.teamway.deviceproxy.HCNetSDK.FLoginResultCallBack;
-import shenzhen.teamway.deviceproxy.HCNetSDK.NET_DVR_CARD_CFG_V50;
-import shenzhen.teamway.deviceproxy.HCNetSDK.NET_DVR_DEVICEINFO_V30;
-
 public interface TeamWayInterface extends Library{
 	
 //	TeamWayInterface INSTANCE = (TeamWayInterface) Native.loadLibrary("hcnetsdk",TeamWayInterface.class);//加载库文件
@@ -21,6 +17,7 @@ public interface TeamWayInterface extends Library{
 	public static final int NET_DVR_DEV_ADDRESS_MAX_LEN = 129;
 	public static final int NET_DVR_LOGIN_USERNAME_MAX_LEN = 64;
 	public static final int NET_DVR_LOGIN_PASSWD_MAX_LEN = 64;
+	public static final int SERIALNO_LEN = 48;   //序列号长度
 	/** 最大门数量 */
 	public static final int MAX_DOOR_NUM = 255;
 	
@@ -66,7 +63,7 @@ public interface TeamWayInterface extends Library{
 	  * @return 返回值： -1 表示失败，其他值作为 NET_DVR_SendRemoteConfig 等接口的句柄
 	  * @author dell
 	  */
-	 NativeLong NET_DVR_StartRemoteConfig(NativeLong lUserID, int dwCommand, Pointer lpInBuffer, int dwInBufferLen, NET_DVR_CARD_CFG_V50 cbStateCallback, Pointer pUserData);
+//	 NativeLong NET_DVR_StartRemoteConfig(NativeLong lUserID, int dwCommand, Pointer lpInBuffer, int dwInBufferLen, NET_DVR_CARD_CFG_V50 cbStateCallback, Pointer pUserData);
 	 
 	 /**
 	  * 发送长链接数据sdk6.6.18
@@ -77,7 +74,7 @@ public interface TeamWayInterface extends Library{
 	  * @return
 	  * @author dell
 	  */
-	 boolean NET_DVR_SendRemoteConfig(NativeLong lHandle, int dwDataType, String pSendBuf, int dwBufSize);
+//	 boolean NET_DVR_SendRemoteConfig(NativeLong lHandle, int dwDataType, String pSendBuf, int dwBufSize);
 	 
 	 /****************************************接口 end *******************************************************************************************************/
 	 
@@ -85,12 +82,18 @@ public interface TeamWayInterface extends Library{
 	     * 回调函数----获取卡号sdk6.6.17  sdk3.5
 	     * @author dell
 	     */
-	    public static interface FRemoteConfigCallback extends Callback{
-	    	public void invoke(int dwType, Pointer lpBuffer, int dwBufLen, Pointer pUserData);
-	    	
-	    }	 
+//	    public static interface FRemoteConfigCallback extends Callback{
+//	    	public void invoke(int dwType, Pointer lpBuffer, int dwBufLen, Pointer pUserData);
+//	    	
+//	    }	 
 	 
-	 
+	 /**
+	     * 异步登录回调函数----获取ID
+	     * @author dell
+	     */
+	    public static interface FLoginResultCallBack extends Callback{
+	    	public int invoke(NativeLong lUserID,int dwResult,Pointer lpDeviceinfo,Pointer pUser);
+	    }
 	 
 	 
 	 
@@ -118,6 +121,21 @@ public interface TeamWayInterface extends Library{
 	 		public byte byRes1;
 	 		public int dwSurplusLockTime;///剩余锁定时间
 	 		public byte[] byRes2 = new byte[256];
+	 }
+	 
+	//NET_DVR_Login_V30()参数结构
+	 public static class NET_DVR_DEVICEINFO_V30 extends Structure
+	 {
+	    public  byte[] sSerialNumber = new byte[SERIALNO_LEN];  //序列号
+	    public  byte byAlarmInPortNum;		        //报警输入个数
+	    public  byte byAlarmOutPortNum;		        //报警输出个数
+	    public  byte byDiskNum;				    //硬盘个数
+	    public  byte byDVRType;				    //设备类型, 1:DVR 2:ATM DVR 3:DVS ......
+	    public  byte byChanNum;				    //模拟通道个数
+	    public  byte byStartChan;			        //起始通道号,例如DVS-1,DVR - 1
+	    public  byte byAudioChanNum;                //语音通道数
+	    public  byte byIPChanNum;					//最大数字通道个数
+	    public  byte[] byRes1 = new byte[24];					//保留
 	 }
 	 
 	 /**
