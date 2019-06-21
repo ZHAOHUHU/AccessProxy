@@ -2,8 +2,13 @@ package shenzhen.teamway.cconfig;
 
 import org.fusesource.mqtt.client.BlockingConnection;
 import org.fusesource.mqtt.client.MQTT;
+import org.fusesource.mqtt.client.QoS;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 
 /**
  * @program: acsproxy
@@ -17,11 +22,14 @@ public class MqttProvider {
     private final static String CONNECTION_STRING = urlTcp;
     private final static boolean CLEAN_START = true;
     private final static short KEEP_ALIVE = 30;// 低耗网络，但是又需要及时获取数据，心跳30s
-    public final static long RECONNECTION_ATTEMPT_MAX = 6;
+    public final static long RECONNECTION_ATTEMPT_MAX = -1;
     public final static long RECONNECTION_DELAY = 2000;
     public final static int SEND_BUFFER_SIZE = 2 * 1024 * 1024;//发送最大缓冲为2M
 
+
+
     @Bean
+    @Scope("prototype")
     public BlockingConnection mqtt() throws Exception {
         MQTT mqtt = new MQTT();
         //设置服务端的ip
@@ -36,7 +44,6 @@ public class MqttProvider {
         mqtt.setKeepAlive(KEEP_ALIVE);
         //设置缓冲的大小
         mqtt.setSendBufferSize(SEND_BUFFER_SIZE);
-
         //创建连接
         BlockingConnection connection = mqtt.blockingConnection();
         //开始连接

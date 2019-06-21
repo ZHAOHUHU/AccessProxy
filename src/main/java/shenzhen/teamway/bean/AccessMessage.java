@@ -1,5 +1,7 @@
 package shenzhen.teamway.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @program: acsproxy
  * @description:
@@ -7,13 +9,21 @@ package shenzhen.teamway.bean;
  * @create: 2019-05-30 16:08
  **/
 public class AccessMessage {
-    private String Version="1.0";
+    @JSONField(name = "Version")
+    private String Version = "1.0";
+    @JSONField(name = "DeviceType")
     private String DeviceType;
+    @JSONField(name = "Vendor")
     private String Vendor;
+    @JSONField(name = "DataType")
     private String DataType;
+    @JSONField(name = "Payload")
     private Payload Payload;
+    @JSONField(name = "GatewayInfo")
     private GatewayInfo GatewayInfo;
+    @JSONField(name = "HostInfo")
     private HostInfo HostInfo;
+    @JSONField(name = "ChannelInfo")
     private shenzhen.teamway.bean.ChannelInfo ChannelInfo;
 
     public String getVendor() {
@@ -30,6 +40,14 @@ public class AccessMessage {
 
     public void setDeviceType(String deviceType) {
         DeviceType = deviceType;
+    }
+
+    public String getVersion() {
+        return Version;
+    }
+
+    public void setVersion(String version) {
+        Version = version;
     }
 
     public String getDataType() {

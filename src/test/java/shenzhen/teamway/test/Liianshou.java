@@ -1,6 +1,7 @@
 package shenzhen.teamway.test;
 
-import java.util.Objects;
+import com.sun.jna.NativeLong;
+import shenzhen.teamway.deviceproxy.TeamWayClass;
 
 /**
  * @program: acsproxy
@@ -9,29 +10,20 @@ import java.util.Objects;
  * @create: 2019-05-31 09:08
  **/
 public class Liianshou {
-    public static void main(String[] args) {
-        final Person person = new Person();
-        final Person person1 = new Person();
-        System.out.println(person==person1);
-        System.out.println(person.equals(person1));
-
+    public static void a(String s) {
+        System.out.println(s);
     }
 
-    static class Person {
-        private String
-                name;
+    public static void b(String s) {
+        final String s1 = new String();
+        a(s1);
+    }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Person person = (Person) o;
-            return name.equals(person.name);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(name);
-        }
+    public static void main(String[] args) throws InterruptedException {
+        TeamWayClass.init();
+        NativeLong id = TeamWayClass.LoginDevice("192.168.12.37", "admin", "ty26811438", 8000);
+       TeamWayClass.remoteControl(id);
+       /*
+        */
     }
 }

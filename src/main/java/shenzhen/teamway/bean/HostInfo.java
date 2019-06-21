@@ -1,5 +1,7 @@
 package shenzhen.teamway.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @program: acsproxy
  * @description:
@@ -7,8 +9,11 @@ package shenzhen.teamway.bean;
  * @create: 2019-05-30 16:07
  **/
 public class HostInfo {
+    @JSONField(name = "Description")
     private String Description;
+    @JSONField(name = "Location")
     private String Location;
+    @JSONField(name = "index")
     private int index;
 
     public String getDescription() {

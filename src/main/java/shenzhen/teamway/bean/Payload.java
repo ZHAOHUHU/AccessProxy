@@ -1,5 +1,7 @@
 package shenzhen.teamway.bean;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -9,12 +11,19 @@ import java.util.Date;
  * @create: 2019-05-30 16:06
  **/
 public class Payload {
+    @JSONField(name = "FaceImage")
     private String FaceImage;
+    @JSONField(name = "VehicleNoImage")
     private String VehicleNoImage;
+    @JSONField(name = "VehicleImage")
     private String VehicleImage;
+    @JSONField(name = "CardId")
     private String CardId;
+    @JSONField(name = "DoorStatus")
     private String DoorStatus;
+    @JSONField(name = "EventCode")
     private int EventCode;
+    @JSONField(name = "TimeStamp")
     private Date TimeStamp;
 
     public String getFaceImage() {
